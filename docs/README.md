@@ -55,3 +55,12 @@ flowchart TD
 ## 프로젝트 현황
 
 현재 초기 개발 단계로, 프로젝트 문서화 및 개념 증명(PoC) 작업이 진행 중입니다. 관심 있으신 개발자나 파트너사는 문의 바랍니다. 
+
+---
+
+## GitHub Pages
+
+이 문서는 GitHub Pages에서 확인할 수 있습니다:  
+[https://vlock-neo-jung.github.io/project-x](https://vlock-neo-jung.github.io/project-x)
+
+> 📝 **참고**: 실제 배포 시 위 URL을 GitHub 사용자 이름과 리포지토리 이름에 맞게 수정해주세요. 
