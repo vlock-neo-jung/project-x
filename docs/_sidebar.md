@@ -1,13 +1,9 @@
 * [홈](/)
 * Overview
-  * [배경](/overview/background)
-  * [문제 정의와 해결방안](/overview/problem-solution)
-  * [시장 분석](/overview/market-analysis)
+  * [프로젝트 배경](/overview/background.md)
+  * [문제 정의와 해결 방안](/overview/problem-solution.md)
 * Business
-  * [사업화 전략](/business/strategy)
-  * [리스크 분석](/business/risks)
-  * [경쟁사 분석](/business/competition)
+  * [사업화 전략](/business/strategy.md)
+  * [리스크 분석](/business/risks.md)
 * Technical
-  * [기술 아키텍처](/technical/architecture)
-  * [데이터 처리](/technical/data-processing)
-  * [API 명세](/technical/api-spec) 
+  * [시스템 아키텍처](/technical/architecture.md) 
