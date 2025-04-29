@@ -6,10 +6,56 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="AI 서비스를 위한 고품질 데이터 공급 플랫폼">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <!-- 기본 테마 -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <!-- 테마 스타일 -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css" id="theme-css">
+  <!-- 다크 테마 -->
+  <link rel="stylesheet alternate" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/dark.css" id="dark-css">
+  
+  <style>
+    /* 사용자 정의 다크 모드 스타일 */
+    :root {
+      --dark-theme-color: #00b894;
+    }
+    
+    .dark-mode {
+      --theme-color: var(--dark-theme-color) !important;
+    }
+    
+    /* 다크 모드 토글 버튼 */
+    .dark-mode-toggle {
+      position: fixed;
+      right: 15px;
+      top: 15px;
+      width: 35px;
+      height: 35px;
+      background-color: #f8f8f8;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: background-color 0.3s;
+    }
+    
+    .dark-mode .dark-mode-toggle {
+      background-color: #202020;
+    }
+    
+    /* mermaid 다이어그램 테마 대응 */
+    .dark-mode .mermaid {
+      background-color: #2c2c2c;
+      padding: 10px;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
+  <button class="dark-mode-toggle" id="dark-mode-toggle" title="Toggle dark mode">
+    🌓
+  </button>
   <div id="app"></div>
   <script>
     window.$docsify = {
@@ -50,6 +96,56 @@
         }
       }
     }
+    
+    // 다크 모드 토글 기능
+    document.addEventListener('DOMContentLoaded', function() {
+      const darkModeToggle = document.getElementById('dark-mode-toggle');
+      const themeCss = document.getElementById('theme-css');
+      const darkCss = document.getElementById('dark-css');
+      
+      // 저장된 테마 설정 불러오기
+      const isDarkMode = localStorage.getItem('darkMode') === 'true';
+      
+      // 초기 테마 설정
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        themeCss.disabled = true;
+        darkCss.disabled = false;
+      }
+      
+      // 테마 토글 이벤트
+      darkModeToggle.addEventListener('click', function() {
+        const isDark = document.body.classList.toggle('dark-mode');
+        themeCss.disabled = isDark;
+        darkCss.disabled = !isDark;
+        localStorage.setItem('darkMode', isDark);
+        
+        // mermaid 다이어그램 테마 갱신
+        if (window.mermaid) {
+          mermaid.initialize({ 
+            theme: isDark ? 'dark' : 'default',
+            startOnLoad: false 
+          });
+          
+          // 페이지 내 다이어그램 다시 그리기
+          const diagrams = document.querySelectorAll('.mermaid');
+          diagrams.forEach(element => {
+            if (element.dataset.processed) {
+              // 다이어그램이 이미 처리되었다면 다시 처리
+              try {
+                const content = element.getAttribute('data-source') || element.textContent;
+                mermaid.render('mermaid-svg-' + Math.random().toString(36).substring(7), content)
+                  .then(result => {
+                    element.innerHTML = result.svg;
+                  });
+              } catch (e) {
+                console.error('Error re-rendering mermaid diagram', e);
+              }
+            }
+          });
+        }
+      });
+    });
   </script>
   <script src="//unpkg.com/docsify-mermaid@1.0.0/dist/docsify-mermaid.js"></script>
 </body>
